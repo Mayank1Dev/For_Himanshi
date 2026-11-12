@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Himanshi ❤️ | A Little Surprise For You</title>
+    <meta name="description" content="An interactive, playful, and heartwarming romantic date proposal website created specially for Himanshi." />
+    <meta property="og:title" content="For Himanshi ❤️ | A Little Surprise For You" />
+    <meta property="og:description" content="An interactive, playful, and heartwarming romantic date proposal website created specially for Himanshi." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts: Poppins, Playfair Display, Caveat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-[#FFF9F8] text-[#292323] antialiased selection:bg-[#FFE5E9] selection:text-[#C1121F] relative overflow-x-hidden min-h-screen">
+    
+    <!-- Background Canvas for Subtle Floating Ambient Hearts -->
+    <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+    <!-- Top Floating Navigation Bar -->
+    <header class="sticky top-4 z-40 max-w-5xl mx-auto px-4 sm:px-6">
+      <nav class="bg-white/90 backdrop-blur-md border border-[#FFE5E9] shadow-sm rounded-full py-2.5 px-5 flex items-center justify-between transition-all">
+        <!-- Brand -->
+        <a href="#hero" class="flex items-center gap-2 group text-[#292323] font-semibold text-base sm:text-lg tracking-tight focus:outline-none focus:ring-2 focus:ring-[#E63946] rounded-full px-2 py-1">
+          <svg class="w-5 h-5 text-[#E63946] group-hover:scale-125 transition-transform animate-heart-pulse fill-current" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span class="font-['Playfair_Display'] italic text-[#C1121F]">For Himanshi</span>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <div class="hidden md:flex items-center gap-6 text-sm font-medium text-[#827575]">
+          <a href="#hero" class="hover:text-[#E63946] transition-colors py-1">Home</a>
+          <a href="#special-message" class="hover:text-[#E63946] transition-colors py-1">A Note</a>
+          <a href="#surprises" class="hover:text-[#E63946] transition-colors py-1">Little Surprises</a>
+          <a href="#letter" class="hover:text-[#E63946] transition-colors py-1">A Letter</a>
+          <a href="#proposal" class="text-[#E63946] font-semibold hover:text-[#C1121F] transition-colors py-1">The Question ❤️</a>
+        </div>
+
+        <!-- Controls: Audio, Music, Mobile Menu Toggle -->
+        <div class="flex items-center gap-2">
+          <!-- SFX Toggle -->
+          <button id="btn-toggle-sfx" aria-label="Toggle sound effects" title="Sound Effects" class="p-2 rounded-full text-[#827575] hover:text-[#E63946] hover:bg-[#FFE5E9]/50 transition-colors focus:outline-none focus:ring-2 focus:ring-[#E63946]">
+            <svg id="icon-sfx-on" class="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+            <svg id="icon-sfx-off" class="w-4 h-4 hidden fill-none stroke-current stroke-2 text-[#827575]/60" viewBox="0 0 24 24">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+          </button>
+
+          <!-- Music Toggle -->
+          <button id="btn-toggle-music" aria-label="Toggle romantic background music" title="Background Music Box" class="p-2 rounded-full text-[#827575] hover:text-[#E63946] hover:bg-[#FFE5E9]/50 transition-colors focus:outline-none focus:ring-2 focus:ring-[#E63946] relative">
+            <svg class="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+              <path d="M9 18V5l12-2v13"></path>
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="16" r="3"></circle>
+            </svg>
+            <span id="music-indicator" class="hidden absolute top-1 right-1 w-2 h-2 rounded-full bg-[#E63946] animate-ping"></span>
+          </button>
+
+          <!-- Animated Heart Indicator -->
+          <div class="hidden sm:flex items-center text-[#E63946] pl-1" title="Lots of love!">
+            <svg class="w-5 h-5 fill-current animate-heart-pulse" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </div>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button id="btn-mobile-menu" aria-label="Open navigation menu" class="md:hidden p-2 rounded-full text-[#827575] hover:text-[#E63946] hover:bg-[#FFE5E9]/50 transition-colors focus:outline-none focus:ring-2 focus:ring-[#E63946]">
+            <svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Mobile Dropdown Menu -->
+      <div id="mobile-menu" class="hidden md:hidden mt-2 bg-white rounded-2xl border border-[#FFE5E9] shadow-lg p-4 flex-col gap-3 text-center transition-all">
+        <a href="#hero" class="mobile-nav-link text-sm font-medium py-2 hover:text-[#E63946]">Home</a>
+        <a href="#special-message" class="mobile-nav-link text-sm font-medium py-2 hover:text-[#E63946]">A Note</a>
+        <a href="#surprises" class="mobile-nav-link text-sm font-medium py-2 hover:text-[#E63946]">Little Surprises</a>
+        <a href="#letter" class="mobile-nav-link text-sm font-medium py-2 hover:text-[#E63946]">A Letter</a>
+        <a href="#proposal" class="mobile-nav-link text-sm font-semibold py-2 text-[#E63946]">The Question ❤️</a>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="relative z-10">
+
+      <!-- SECTION 1: HERO SECTION -->
+      <section id="hero" class="min-h-[85vh] flex items-center justify-center px-4 sm:px-6 py-12 md:py-20">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          
+          <!-- Left Text Content -->
+          <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+            
+            <!-- Cute Tag Badge -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFE5E9] text-[#C1121F] text-xs font-semibold tracking-wide border border-[#FFE5E9]">
+              <svg class="w-3.5 h-3.5 fill-current animate-heart-pulse" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              <span>MADE WITH A LITTLE EXTRA LOVE ❤️</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-['Playfair_Display'] text-[#292323] leading-tight text-balance">
+              Hey Himanshi! You Have a Little Surprise... <span class="inline-block hover:rotate-12 transition-transform">💌</span>
+            </h1>
+
+            <!-- Subheading -->
+            <p class="text-base sm:text-lg text-[#827575] max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
+              So, I made this tiny corner of the internet just for you. I hope it brings a big smile to your face today.
+            </p>
+
+            <!-- Interactive Hero Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+              <button id="btn-open-surprise" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#E63946] hover:bg-[#C1121F] text-white font-medium text-base shadow-md hover:shadow-lg hover:shadow-[#E63946]/25 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 group">
+                <span>Open My Surprise</span>
+                <span class="group-hover:scale-125 transition-transform inline-block">❤️</span>
+              </button>
+
+              <button id="btn-curious" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white hover:bg-[#FFE5E9]/50 text-[#C1121F] border border-[#FFE5E9] font-medium text-base shadow-sm hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2">
+                <span>I'm Curious</span>
+                <span class="inline-block animate-bounce">👀</span>
+              </button>
+            </div>
+
+            <!-- Cute handwritten micro-note -->
+            <p class="font-['Caveat'] text-xl text-[#C1121F]/80 pt-1">
+              (Promise, no boring slides here—only good vibes and smiles!)
+            </p>
+          </div>
+
+          <!-- Right Column: Custom Animated Cupid & Romantic Illustration -->
+          <div class="lg:col-span-5 flex items-center justify-center relative select-none">
+            
+            <!-- Soft radiant glow behind cupid -->
+            <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-[#FFE5E9]/60 blur-3xl -z-10 animate-pulse"></div>
+
+            <!-- Cupid Character SVG Masterpiece -->
+            <div class="relative w-72 h-72 sm:w-88 sm:h-88 animate-cupid-bounce">
+              <svg viewBox="0 0 340 340" class="w-full h-full drop-shadow-md overflow-visible">
+                <!-- Heart Balloon Strings -->
+                <path d="M 120 70 Q 150 110 180 150" stroke="#E63946" stroke-width="1.5" stroke-dasharray="3,3" fill="none" opacity="0.6"/>
+                <path d="M 240 60 Q 210 105 185 150" stroke="#E63946" stroke-width="1.5" stroke-dasharray="3,3" fill="none" opacity="0.6"/>
+
+                <!-- Left Heart Balloon -->
+                <g class="animate-float-gentle">
+                  <path d="M 120 70 C 120 50, 95 40, 85 60 C 75 40, 50 50, 50 70 C 50 100, 85 115, 85 125 C 85 115, 120 100, 120 70 Z" fill="#E63946" />
+                  <ellipse cx="75" cy="62" rx="4" ry="7" fill="#ffffff" opacity="0.4" transform="rotate(-20 75 62)"/>
+                </g>
+
+                <!-- Right Heart Balloon -->
+                <g style="animation: floatGentle 3.5s ease-in-out infinite 0.5s;">
+                  <path d="M 270 55 C 270 38, 248 30, 240 48 C 232 30, 210 38, 210 55 C 210 80, 240 94, 240 102 C 240 94, 270 80, 270 55 Z" fill="#C1121F" />
+                  <ellipse cx="230" cy="48" rx="3.5" ry="6" fill="#ffffff" opacity="0.4" transform="rotate(-15 230 48)"/>
+                </g>
+
+                <!-- Left Cupid Wing (Flapping) -->
+                <g class="animate-wing-left">
+                  <path d="M 140 160 C 110 130, 90 145, 85 170 C 80 190, 105 200, 135 185 Z" fill="#ffffff" stroke="#FFE5E9" stroke-width="2.5"/>
+                  <path d="M 130 168 C 112 145, 98 158, 95 175" stroke="#FFE5E9" stroke-width="2" fill="none"/>
+                  <path d="M 125 180 C 115 168, 105 178, 105 188" stroke="#FFE5E9" stroke-width="2" fill="none"/>
+                </g>
+
+                <!-- Right Cupid Wing (Flapping) -->
+                <g class="animate-wing-right">
+                  <path d="M 200 160 C 230 130, 250 145, 255 170 C 260 190, 235 200, 205 185 Z" fill="#ffffff" stroke="#FFE5E9" stroke-width="2.5"/>
+                  <path d="M 210 168 C 228 145, 242 158, 245 175" stroke="#FFE5E9" stroke-width="2" fill="none"/>
+                  <path d="M 215 180 C 225 168, 235 178, 235 188" stroke="#FFE5E9" stroke-width="2" fill="none"/>
+                </g>
+
+                <!-- Cupid Body -->
+                <ellipse cx="170" cy="190" rx="32" ry="38" fill="#FFF0F2" stroke="#FFE5E9" stroke-width="2"/>
+                <!-- Cute Diaper / Cloth -->
+                <path d="M 144 195 Q 170 230 196 195 Q 185 220 170 220 Q 155 220 144 195 Z" fill="#ffffff" stroke="#FFE5E9" stroke-width="1.5"/>
+
+                <!-- Cupid Head -->
+                <circle cx="170" cy="142" r="30" fill="#FFF0F2" stroke="#FFE5E9" stroke-width="2"/>
+                
+                <!-- Cupid Curly Hair -->
+                <path d="M 145 130 C 145 110, 160 108, 170 108 C 180 108, 195 110, 195 130 C 195 118, 185 114, 175 115 C 165 115, 150 118, 145 130 Z" fill="#FFE5E9" stroke="#E63946" stroke-width="1.5"/>
+                <circle cx="152" cy="116" r="6" fill="#FFE5E9" stroke="#E63946" stroke-width="1"/>
+                <circle cx="168" cy="112" r="7" fill="#FFE5E9" stroke="#E63946" stroke-width="1"/>
+                <circle cx="184" cy="116" r="6" fill="#FFE5E9" stroke="#E63946" stroke-width="1"/>
+
+                <!-- Rosy Cheeks -->
+                <circle cx="154" cy="148" r="5" fill="#E63946" opacity="0.35"/>
+                <circle cx="186" cy="148" r="5" fill="#E63946" opacity="0.35"/>
+
+                <!-- Eyes (Happy arch) -->
+                <path d="M 154 138 Q 158 133 162 138" stroke="#292323" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M 178 138 Q 182 133 186 138" stroke="#292323" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+                <!-- Sweet Smile -->
+                <path d="M 164 150 Q 170 157 176 150" stroke="#C1121F" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+                <!-- Golden Halo or Sparkle -->
+                <ellipse cx="170" cy="104" rx="20" ry="5" fill="none" stroke="#FFD166" stroke-width="2.5" opacity="0.9"/>
+
+                <!-- Arms Holding Cupid's Golden Bow -->
+                <circle cx="145" cy="180" r="7" fill="#FFF0F2" stroke="#FFE5E9" stroke-width="1.5"/>
+                <circle cx="195" cy="180" r="7" fill="#FFF0F2" stroke="#FFE5E9" stroke-width="1.5"/>
+
+                <!-- Bow & Heart Arrow -->
+                <path d="M 140 165 Q 125 185 140 205" stroke="#FFD166" stroke-width="3" stroke-linecap="round" fill="none"/>
+                <line x1="135" y1="185" x2="205" y2="185" stroke="#E63946" stroke-width="2" stroke-linecap="round"/>
+                <!-- Arrow Heart Tip -->
+                <path d="M 215 185 C 215 181, 209 179, 206 183 C 203 179, 197 181, 197 185 C 197 190, 206 195, 206 195 C 206 195, 215 190, 215 185 Z" fill="#E63946" transform="rotate(90 206 185) scale(0.9)"/>
+
+                <!-- Floating Little Love Envelopes and Stars Around -->
+                <!-- Envelope 1 -->
+                <g transform="translate(60, 220) rotate(-12)" class="animate-float-gentle">
+                  <rect width="36" height="24" rx="3" fill="#ffffff" stroke="#FFE5E9" stroke-width="1.5"/>
+                  <path d="M 0 0 L 18 13 L 36 0" fill="none" stroke="#E63946" stroke-width="1.2"/>
+                  <circle cx="18" cy="13" r="2.5" fill="#E63946"/>
+                </g>
+
+                <!-- Floating Heart with Wings -->
+                <g transform="translate(250, 200) rotate(15)" style="animation: floatGentle 3s ease-in-out infinite 0.7s;">
+                  <path d="M 0 8 C -8 3, -16 6, -18 14 C -12 14, -6 11, 0 8 Z" fill="#ffffff" stroke="#FFE5E9" stroke-width="1"/>
+                  <path d="M 16 8 C 24 3, 32 6, 34 14 C 28 14, 22 11, 16 8 Z" fill="#ffffff" stroke="#FFE5E9" stroke-width="1"/>
+                  <path d="M 16 8 C 16 4, 12 1, 8 5 C 4 1, 0 4, 0 8 C 0 14, 8 18, 8 20 C 8 18, 16 14, 16 8 Z" fill="#E63946"/>
+                </g>
+
+                <!-- Little Stars -->
+                <path d="M 285 110 L 288 116 L 294 117 L 289 121 L 291 127 L 285 124 L 280 127 L 281 121 L 277 117 L 283 116 Z" fill="#FFD166" opacity="0.8"/>
+                <path d="M 45 150 L 47 154 L 51 155 L 48 158 L 49 162 L 45 160 L 42 162 L 43 158 L 40 155 L 44 154 Z" fill="#FFD166" opacity="0.7"/>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 2: THE SPECIAL MESSAGE SECTION -->
+      <section id="special-message" class="py-16 md:py-24 px-4 sm:px-6">
+        <div class="max-w-3xl mx-auto">
+          
+          <!-- Section Title -->
+          <div class="text-center mb-10 space-y-2">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-['Playfair_Display'] text-[#292323]">
+              Okay, So Here's the Thing... <span class="text-[#E63946]">💗</span>
+            </h2>
+            <p class="text-sm sm:text-base text-[#827575]">Just a quick honest thought from me to you</p>
+          </div>
+
+          <!-- White Card with Red Border and Rounded Corners -->
+          <div class="bg-white rounded-3xl border-2 border-[#FFE5E9] shadow-sm hover:shadow-md transition-shadow p-6 sm:p-10 relative overflow-hidden">
+            
+            <!-- Decorative corner hearts -->
+            <div class="absolute -top-3 -right-3 text-[#FFE5E9] w-16 h-16 pointer-events-none">
+              <svg viewBox="0 0 24 24" class="fill-current w-full h-full">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center gap-6">
+              
+              <!-- Cute Mini Animated SVG Illustration beside message -->
+              <div class="w-24 h-24 shrink-0 flex items-center justify-center bg-[#FFF0F2] rounded-2xl border border-[#FFE5E9]">
+                <svg viewBox="0 0 100 100" class="w-16 h-16 animate-float-gentle">
+                  <!-- Teacup or Sweet Gift -->
+                  <rect x="25" y="40" width="50" height="36" rx="6" fill="#FFFFFF" stroke="#E63946" stroke-width="2.5"/>
+                  <path d="M 75 48 C 85 48, 88 62, 75 64" fill="none" stroke="#E63946" stroke-width="2.5" stroke-linecap="round"/>
+                  <!-- Warm steam forming a heart -->
+                  <path d="M 50 34 C 45 26, 40 26, 40 22 C 40 18, 48 16, 50 20 C 52 16, 60 18, 60 22 C 60 26, 55 26, 50 34 Z" fill="#E63946" opacity="0.85"/>
+                  <circle cx="42" cy="56" r="2.5" fill="#292323"/>
+                  <circle cx="58" cy="56" r="2.5" fill="#292323"/>
+                  <path d="M 48 62 Q 50 65 52 62" stroke="#E63946" stroke-width="2" stroke-linecap="round" fill="none"/>
+                </svg>
+              </div>
+
+              <!-- Message Body -->
+              <div class="space-y-4 text-center md:text-left flex-1">
+                <p class="text-base sm:text-lg text-[#292323] leading-relaxed font-normal">
+                  "Sometimes, you meet someone who makes even the simplest moments feel a little more special.
+                </p>
+                <p class="text-base sm:text-lg text-[#292323] leading-relaxed font-normal">
+                  And well, <strong class="text-[#C1121F] font-semibold">Himanshi</strong>, you happen to be one of those people.
+                </p>
+                <p class="text-base sm:text-lg text-[#292323] leading-relaxed font-normal">
+                  So I thought... why not create something a little different just to make you smile?"
+                </p>
+              </div>
+            </div>
+
+            <!-- Expand Button -->
+            <div class="mt-8 pt-6 border-t border-[#FFE5E9] flex flex-col items-center">
+              <button id="btn-tell-more" class="px-6 py-2.5 rounded-full bg-[#FFF0F2] hover:bg-[#FFE5E9] text-[#C1121F] font-medium text-sm border border-[#FFE5E9] shadow-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                <span>Tell Me More!</span>
+                <span class="text-amber-500">✨</span>
+              </button>
+
+              <!-- Typewriter Extension Reveal Area -->
+              <div id="typewriter-container" class="hidden mt-6 w-full p-5 rounded-2xl bg-[#FFF9F8] border border-[#FFE5E9]/80 text-[#292323] text-left transition-all">
+                <p id="typewriter-text" class="text-base sm:text-lg leading-relaxed text-[#292323] min-h-[3rem] font-['Poppins']"></p>
+                <p id="typewriter-signature" class="hidden mt-3 font-['Caveat'] text-2xl text-[#C1121F] text-right">
+                  — yes, really! 🌸
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 3: INTERACTIVE HEART MINI-GAME -->
+      <section id="surprises" class="py-16 md:py-24 px-4 sm:px-6 bg-gradient-to-b from-[#FFF9F8] via-[#FFF0F2]/40 to-[#FFF9F8]">
+        <div class="max-w-4xl mx-auto text-center space-y-8">
+          
+          <!-- Section Header -->
+          <div class="space-y-3">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-['Playfair_Display'] text-[#292323]">
+              Can You Collect a Little Love? <span class="text-[#E63946]">❤️</span>
+            </h2>
+            <p class="text-base sm:text-lg text-[#827575] max-w-xl mx-auto">
+              Tap the hearts to collect your little surprises!
+            </p>
+            
+            <!-- Progress Counter Badge -->
+            <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white border border-[#FFE5E9] shadow-sm text-sm font-semibold text-[#C1121F]">
+              <span id="heart-counter-text">Little hearts collected: 0/10</span>
+              <div class="w-24 h-2.5 bg-[#FFE5E9] rounded-full overflow-hidden">
+                <div id="heart-progress-bar" class="h-full bg-[#E63946] w-0 transition-all duration-300 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 10 Floating Interactive Heart Cards Grid -->
+          <div id="heart-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 pt-4">
+            <!-- Dynamically populated via main.ts or static fallback -->
+          </div>
+
+          <!-- All Collected Celebration Banner (Hidden until 10/10) -->
+          <div id="heart-all-collected-banner" class="hidden transform scale-95 opacity-0 transition-all duration-500 bg-white border-2 border-[#E63946] rounded-3xl p-6 sm:p-8 shadow-md space-y-4">
+            <div class="text-4xl sm:text-5xl animate-bounce">🎉🥹❤️</div>
+            <h3 class="text-xl sm:text-2xl font-bold font-['Playfair_Display'] text-[#C1121F]">
+              YAY! You found all the little surprises! 🥹
+            </h3>
+            <p class="text-base text-[#827575] max-w-lg mx-auto">
+              Every single word is 100% true. You really are wonderful, Himanshi.
+            </p>
+            <div class="pt-2">
+              <a href="#letter" id="btn-next-after-hearts" class="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-[#E63946] hover:bg-[#C1121F] text-white font-medium text-base shadow hover:shadow-lg hover:scale-105 active:scale-95 transition-all">
+                <span>There's One More Thing...</span>
+                <span>💌</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 4: THE INTERACTIVE LOVE LETTER -->
+      <section id="letter" class="py-16 md:py-24 px-4 sm:px-6">
+        <div class="max-w-2xl mx-auto text-center space-y-8">
+          
+          <!-- Section Title -->
+          <div class="space-y-2">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-['Playfair_Display'] text-[#292323]">
+              A Tiny Letter, Just for You <span class="text-[#E63946]">💌</span>
+            </h2>
+            <p class="text-sm sm:text-base text-[#827575]">
+              Tap the envelope to open your letter.
+            </p>
+          </div>
+
+          <!-- 3D Envelope Container -->
+          <div class="envelope-wrapper relative mx-auto w-full max-w-md pt-24 pb-8 flex items-center justify-center">
+            
+            <!-- Letter Sheet (Slides up when envelope opens) -->
+            <div id="letter-sheet" class="letter-sheet absolute top-16 w-[92%] sm:w-[94%] bg-[#FFFFFF] border border-[#FFE5E9] rounded-2xl shadow-lg p-6 sm:p-8 text-left space-y-4 z-10 select-text opacity-95">
+              <div class="flex items-center justify-between border-b border-[#FFE5E9] pb-3">
+                <span class="font-['Caveat'] text-2xl font-bold text-[#C1121F]">Dear Himanshi,</span>
+                <span class="text-xs text-[#827575] font-medium tracking-wide">CONFIDENTIAL & SWEET</span>
+              </div>
+
+              <!-- Typed Letter Content Container -->
+              <div id="letter-content" class="space-y-3 font-['Caveat'] text-xl sm:text-2xl text-[#292323] leading-relaxed min-h-[14rem]">
+                <!-- Filled line-by-line via typewriter effect -->
+              </div>
+
+              <div id="letter-signature" class="hidden pt-2 border-t border-[#FFE5E9]/60 font-['Caveat'] text-xl sm:text-2xl text-[#C1121F] text-right space-y-1">
+                <p>With a smile and a little courage,</p>
+                <p class="font-bold">Someone who thinks you're pretty special. ❤️</p>
+              </div>
+            </div>
+
+            <!-- Envelope Pocket & Flap -->
+            <div id="envelope-pocket" class="relative w-full aspect-[4/3] bg-white border-2 border-[#FFE5E9] rounded-2xl shadow-md overflow-hidden z-20 cursor-pointer group hover:border-[#E63946] transition-colors">
+              
+              <!-- Envelope Decorative Pattern / Postmark -->
+              <div class="absolute top-4 right-4 flex items-center gap-1.5 opacity-60">
+                <div class="border border-dashed border-[#C1121F] rounded px-2 py-0.5 text-[10px] font-mono text-[#C1121F] uppercase">Special Delivery</div>
+              </div>
+
+              <!-- Envelope Flap (Triangle) -->
+              <div id="envelope-flap" class="envelope-flap absolute top-0 left-0 w-full h-1/2 bg-[#FFF0F2] border-b-2 border-[#FFE5E9] flex items-center justify-center origin-top">
+                <!-- Red Wax Seal Button in center -->
+                <button id="wax-seal" aria-label="Open letter wax seal" class="w-12 h-12 rounded-full bg-[#E63946] hover:bg-[#C1121F] border-2 border-white shadow-md flex items-center justify-center text-white text-base group-hover:scale-110 active:scale-90 transition-transform">
+                  <svg class="w-6 h-6 fill-current animate-heart-pulse" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Lower Diagonal Fold Lines for Authentic Envelope Look -->
+              <div class="absolute inset-0 pointer-events-none">
+                <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+                  <path d="M 0 100 L 50 50 L 100 100" fill="#FFF9F8" stroke="#FFE5E9" stroke-width="1.5"/>
+                  <path d="M 0 0 L 50 50 L 0 100" fill="#FFF0F2" stroke="#FFE5E9" stroke-width="1" opacity="0.6"/>
+                  <path d="M 100 0 L 50 50 L 100 100" fill="#FFF0F2" stroke="#FFE5E9" stroke-width="1" opacity="0.6"/>
+                </svg>
+              </div>
+
+              <!-- Instruction Text on Envelope -->
+              <div class="absolute bottom-4 inset-x-0 text-center font-['Caveat'] text-lg text-[#827575] pointer-events-none">
+                Tap anywhere to open your letter ✨
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Letter Action Button (Reveals after reading) -->
+          <div id="after-letter-controls" class="pt-6">
+            <a href="#proposal" id="btn-to-proposal" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#E63946] hover:bg-[#C1121F] text-white font-medium text-base shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all">
+              <span>Wait... What's the Question?</span>
+              <span class="animate-bounce">👀</span>
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 5: THE FUN SURPRISE BUTTON -->
+      <section id="fun-surprise" class="py-16 md:py-24 px-4 sm:px-6 bg-white border-y border-[#FFE5E9]">
+        <div class="max-w-2xl mx-auto text-center space-y-8">
+          
+          <!-- Heading -->
+          <div class="space-y-2">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-['Playfair_Display'] text-[#292323]">
+              Feeling Curious? <span class="text-[#E63946]">😏</span>
+            </h2>
+            <p class="text-sm sm:text-base text-[#827575]">
+              Hit the big button below as many times as you want for an instant mood booster!
+            </p>
+          </div>
+
+          <!-- Large Red Button -->
+          <div>
+            <button id="btn-random-surprise" class="px-8 py-4 rounded-full bg-[#E63946] hover:bg-[#C1121F] text-white text-base sm:text-lg font-bold shadow-md hover:shadow-xl hover:shadow-[#E63946]/30 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-3 mx-auto">
+              <span>CLICK ME FOR A RANDOM SURPRISE</span>
+              <span class="animate-heart-pulse">❤️</span>
+            </button>
+          </div>
+
+          <!-- Cute Animated Card Displaying the Surprise -->
+          <div id="surprise-card" class="bg-[#FFF9F8] border-2 border-[#FFE5E9] rounded-3xl p-6 sm:p-8 shadow-sm min-h-[7rem] flex items-center justify-center transition-all duration-300 transform">
+            <p id="surprise-text" class="text-lg sm:text-xl font-medium text-[#292323] leading-relaxed">
+              ✨ Go ahead, click the button above! Something cute is waiting for you! ✨
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 6: THE GRAND FINALE – THE DATE PROPOSAL ❤️ -->
+      <section id="proposal" class="py-20 md:py-32 px-4 sm:px-6 bg-gradient-to-b from-[#FFF0F2] via-[#FFE5E9]/60 to-[#FFF9F8] relative overflow-hidden">
+        
+        <!-- Rose Petals Floating CSS Overlay Container -->
+        <div id="rose-petals-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+        <div class="max-w-3xl mx-auto text-center space-y-10 relative z-10">
+          
+          <!-- Cute Handwritten Kicker -->
+          <div class="space-y-2">
+            <span class="inline-block font-['Caveat'] text-2xl sm:text-3xl text-[#C1121F] font-semibold tracking-wide animate-pulse">
+              Okay... Deep Breath! 🥹
+            </span>
+
+            <!-- Main Heading -->
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold font-['Playfair_Display'] text-[#292323] text-balance">
+              Himanshi, Can I Ask You Something?
+            </h2>
+
+            <!-- Subtext -->
+            <p class="text-base sm:text-lg text-[#827575] max-w-xl mx-auto pt-1">
+              So, after all these little surprises, there's one question I've been saving just for you...
+            </p>
+          </div>
+
+          <!-- Proposal Card & BIG QUESTION -->
+          <div id="proposal-main-card" class="bg-white rounded-3xl border-2 border-[#E63946]/40 p-8 sm:p-12 shadow-lg space-y-8 relative">
+            
+            <!-- Cupid Holding a Heart Illustration -->
+            <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto -mt-4">
+              <svg viewBox="0 0 120 120" class="w-full h-full overflow-visible animate-cupid-bounce">
+                <!-- Cupid Head -->
+                <circle cx="60" cy="45" r="22" fill="#FFF0F2" stroke="#FFE5E9" stroke-width="1.5"/>
+                <!-- Hair -->
+                <path d="M 42 38 C 42 22, 55 20, 60 20 C 65 20, 78 22, 78 38 Z" fill="#FFE5E9" stroke="#E63946" stroke-width="1"/>
+                <circle cx="48" cy="28" r="5" fill="#FFE5E9"/>
+                <circle cx="60" cy="25" r="5" fill="#FFE5E9"/>
+                <circle cx="72" cy="28" r="5" fill="#FFE5E9"/>
+                <!-- Cheeks -->
+                <circle cx="49" cy="50" r="4" fill="#E63946" opacity="0.4"/>
+                <circle cx="71" cy="50" r="4" fill="#E63946" opacity="0.4"/>
+                <!-- Eyes smiling -->
+                <path d="M 48 42 Q 52 38 56 42" stroke="#292323" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M 64 42 Q 68 38 72 42" stroke="#292323" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- Cute mouth -->
+                <circle cx="60" cy="52" r="2.5" fill="#C1121F"/>
+                <!-- Wings -->
+                <path d="M 40 50 C 20 35, 12 55, 36 68 Z" fill="#FFFFFF" stroke="#FFE5E9" stroke-width="1.5"/>
+                <path d="M 80 50 C 100 35, 108 55, 84 68 Z" fill="#FFFFFF" stroke="#FFE5E9" stroke-width="1.5"/>
+                <!-- BIG HEART CUPID IS HOLDING -->
+                <g class="animate-heart-pulse">
+                  <path d="M 60 98 C 60 98, 28 78, 28 58 C 28 46, 38 38, 48 42 C 54 44, 58 48, 60 52 C 62 48, 66 44, 72 42 C 82 38, 92 46, 92 58 C 92 78, 60 98, 60 98 Z" fill="#E63946" stroke="#C1121F" stroke-width="2"/>
+                  <ellipse cx="44" cy="52" rx="3" ry="6" fill="#ffffff" opacity="0.4" transform="rotate(-30 44 52)"/>
+                </g>
+              </svg>
+            </div>
+
+            <!-- THE BIG QUESTION -->
+            <div class="space-y-2">
+              <h3 class="text-2xl sm:text-3xl md:text-4xl font-extrabold font-['Playfair_Display'] text-[#C1121F] text-balance leading-snug">
+                Would You Like To Go On A Date With Me? ❤️
+              </h3>
+            </div>
+
+            <!-- The Two Proposal Buttons -->
+            <div id="proposal-buttons-row" class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <!-- YES BUTTON -->
+              <button id="btn-proposal-yes" class="w-full sm:w-auto px-10 py-4 rounded-full bg-[#E63946] hover:bg-[#C1121F] text-white font-bold text-lg shadow-lg hover:shadow-[#E63946]/40 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 group">
+                <span>YESSS!</span>
+                <span class="group-hover:scale-125 transition-transform inline-block">❤️</span>
+              </button>
+
+              <!-- MAYBE BUTTON -->
+              <button id="btn-proposal-maybe" class="w-full sm:w-auto px-8 py-4 rounded-full bg-white hover:bg-[#FFE5E9]/40 text-[#827575] hover:text-[#292323] border border-[#FFE5E9] font-medium text-base shadow-sm hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2">
+                <span>Maybe, Let Me Think</span>
+                <span>😊</span>
+              </button>
+            </div>
+
+            <!-- MAYBE STATE FEEDBACK CARD (Initially hidden) -->
+            <div id="maybe-response-card" class="hidden space-y-5 pt-4 text-center">
+              <p class="text-lg sm:text-xl text-[#292323] font-medium leading-relaxed max-w-md mx-auto">
+                That's totally okay, Himanshi! No pressure at all. Take your time. I just wanted to make you smile. ❤️
+              </p>
+              <button id="btn-ask-again" class="px-6 py-2.5 rounded-full bg-[#FFE5E9] hover:bg-[#E63946] text-[#C1121F] hover:text-white font-semibold text-sm transition-all duration-200">
+                Can I Ask You Again? 🥺
+              </button>
+            </div>
+
+          </div>
+
+          <!-- YES STATE CELEBRATION & DATE PLANNER (Initially hidden) -->
+          <div id="yes-celebration-container" class="hidden space-y-8 animate-fade-in">
+            
+            <!-- Confetti Heart Chime Headline -->
+            <div class="bg-white border-2 border-[#E63946] rounded-3xl p-8 sm:p-10 shadow-xl space-y-4 text-center">
+              <div class="text-5xl sm:text-6xl animate-bounce">🥹❤️🎉</div>
+              
+              <h3 class="text-2xl sm:text-3xl md:text-4xl font-extrabold font-['Playfair_Display'] text-[#C1121F]">
+                WAIT... DID YOU JUST SAY YES?! 🥹❤️
+              </h3>
+              
+              <p class="text-xl sm:text-2xl font-bold font-['Playfair_Display'] text-[#292323]">
+                YOU JUST MADE MY DAY, HIMANSHI!
+              </p>
+
+              <p class="text-base text-[#827575] max-w-lg mx-auto">
+                Okay, now let's plan something cute together! Pick what sounds most fun to you:
+              </p>
+            </div>
+
+            <!-- DATE PLANNING CARD -->
+            <div class="bg-white rounded-3xl border border-[#FFE5E9] shadow-md p-6 sm:p-10 text-left space-y-6">
+              <div class="border-b border-[#FFE5E9] pb-4">
+                <h4 class="text-xl font-bold font-['Playfair_Display'] text-[#292323] flex items-center gap-2">
+                  <span>Our Date Blueprint</span>
+                  <span>✨</span>
+                </h4>
+                <p class="text-xs sm:text-sm text-[#827575]">Customize our little outing however you'd like!</p>
+              </div>
+
+              <!-- Date Idea Options -->
+              <div class="space-y-3">
+                <label class="block text-sm font-semibold text-[#292323]">Choose an Idea:</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="date-ideas-list">
+                  <button type="button" data-idea="☕ Cute Coffee Date" class="date-option-btn active text-left p-3.5 rounded-2xl border-2 border-[#E63946] bg-[#FFF0F2] text-[#C1121F] font-semibold text-sm flex items-center justify-between transition-all">
+                    <span>☕ Cute Coffee Date</span>
+                    <span class="text-xs checkmark">✓</span>
+                  </button>
+                  <button type="button" data-idea="🍕 Pizza & Conversations" class="date-option-btn text-left p-3.5 rounded-2xl border-2 border-[#FFE5E9] hover:border-[#E63946]/50 bg-white text-[#292323] font-medium text-sm flex items-center justify-between transition-all">
+                    <span>🍕 Pizza & Conversations</span>
+                    <span class="text-xs checkmark hidden">✓</span>
+                  </button>
+                  <button type="button" data-idea="🌆 Evening Walk" class="date-option-btn text-left p-3.5 rounded-2xl border-2 border-[#FFE5E9] hover:border-[#E63946]/50 bg-white text-[#292323] font-medium text-sm flex items-center justify-between transition-all">
+                    <span>🌆 Evening Walk</span>
+                    <span class="text-xs checkmark hidden">✓</span>
+                  </button>
+                  <button type="button" data-idea="🍽️ Dinner Together" class="date-option-btn text-left p-3.5 rounded-2xl border-2 border-[#FFE5E9] hover:border-[#E63946]/50 bg-white text-[#292323] font-medium text-sm flex items-center justify-between transition-all">
+                    <span>🍽️ Dinner Together</span>
+                    <span class="text-xs checkmark hidden">✓</span>
+                  </button>
+                  <button type="button" data-idea="✨ A Surprise Plan" class="date-option-btn text-left p-3.5 rounded-2xl border-2 border-[#FFE5E9] hover:border-[#E63946]/50 bg-white text-[#292323] font-medium text-sm sm:col-span-2 flex items-center justify-between transition-all">
+                    <span>✨ A Surprise Plan (Leave it completely to me!)</span>
+                    <span class="text-xs checkmark hidden">✓</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Date & Time Pickers -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="plan-date" class="block text-sm font-semibold text-[#292323] mb-1.5">Preferred Day / Date:</label>
+                  <input type="text" id="plan-date" placeholder="e.g. This Saturday, or Nov 15th" class="w-full px-4 py-2.5 rounded-xl border border-[#FFE5E9] bg-[#FFF9F8] text-sm text-[#292323] focus:outline-none focus:ring-2 focus:ring-[#E63946] focus:bg-white transition-all"/>
+                </div>
+                <div>
+                  <label for="plan-time" class="block text-sm font-semibold text-[#292323] mb-1.5">Preferred Time:</label>
+                  <input type="text" id="plan-time" placeholder="e.g. 5:00 PM, sunset time" class="w-full px-4 py-2.5 rounded-xl border border-[#FFE5E9] bg-[#FFF9F8] text-sm text-[#292323] focus:outline-none focus:ring-2 focus:ring-[#E63946] focus:bg-white transition-all"/>
+                </div>
+              </div>
+
+              <!-- Optional Personal Message -->
+              <div>
+                <label for="plan-note" class="block text-sm font-semibold text-[#292323] mb-1.5">Optional Note / Craving:</label>
+                <textarea id="plan-note" rows="2" placeholder="Any favourite café, food preference, or sweet thought?" class="w-full px-4 py-2.5 rounded-xl border border-[#FFE5E9] bg-[#FFF9F8] text-sm text-[#292323] focus:outline-none focus:ring-2 focus:ring-[#E63946] focus:bg-white transition-all resize-none"></textarea>
+              </div>
+
+              <!-- Configurable WhatsApp Recipient Phone Number -->
+              <div class="p-3.5 rounded-xl bg-[#FFF0F2] border border-[#FFE5E9] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#827575]">
+                <div class="flex items-center gap-2">
+                  <span class="text-[#E63946] font-semibold">WhatsApp Delivery:</span>
+                  <span>Will open WhatsApp with your chosen plan pre-typed!</span>
+                </div>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                  <label for="input-phone-number" class="sr-only">Phone number</label>
+                  <input type="text" id="input-phone-number" value="" placeholder="Your phone number" class="px-2.5 py-1 text-xs rounded-lg border border-[#FFE5E9] bg-white text-[#292323] w-full sm:w-36 focus:outline-none focus:ring-1 focus:ring-[#E63946]"/>
+                </div>
+              </div>
+
+              <!-- Final Confirmation Button -->
+              <div class="pt-4 text-center">
+                <button id="btn-submit-proposal" class="w-full sm:w-auto px-10 py-4 rounded-full bg-[#E63946] hover:bg-[#C1121F] text-white font-bold text-base sm:text-lg shadow-lg hover:shadow-xl hover:shadow-[#E63946]/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 mx-auto">
+                  <span>LET'S MAKE IT HAPPEN!</span>
+                  <span>💌</span>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- SECTION 7: FOOTER & EASTER EGG -->
+    <footer class="py-12 px-4 sm:px-6 bg-white border-t border-[#FFE5E9] relative z-10 text-center space-y-4">
+      <div class="max-w-md mx-auto space-y-2">
+        <p class="text-sm text-[#827575] font-normal">
+          Made with ❤️, a little creativity, and someone very special in mind.
+        </p>
+        <p class="text-sm font-semibold text-[#C1121F] font-['Playfair_Display'] italic">
+          Especially for Himanshi.
+        </p>
+      </div>
+
+      <!-- Secret Easter Egg Heart (Click 7 times!) -->
+      <div class="pt-2">
+        <button id="easter-egg-heart" aria-label="A tiny heart with a secret" title="Click me!" class="p-2 inline-block text-[#E63946] hover:scale-125 active:scale-90 transition-transform focus:outline-none">
+          <svg class="w-6 h-6 fill-current animate-heart-pulse" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </button>
+      </div>
+    </footer>
+
+    <!-- Secret Confession Modal (Hidden dialog) -->
+    <dialog id="easter-egg-modal" class="p-0 rounded-3xl backdrop:bg-black/40 border-0 shadow-2xl max-w-md w-[90%] mx-auto open:flex open:flex-col overflow-hidden">
+      <div class="bg-white p-6 sm:p-8 text-center space-y-5 border-2 border-[#E63946]">
+        <div class="text-4xl animate-bounce">🤫💌❤️</div>
+        <h4 class="text-xl font-bold font-['Playfair_Display'] text-[#C1121F]">Secret Confession Unlocked!</h4>
+        <p class="font-['Caveat'] text-2xl text-[#292323] leading-relaxed">
+          "Okay, confession time... I made this entire website just to ask you one little question. And honestly, I'd do it all over again. ❤️"
+        </p>
+        <div>
+          <button id="btn-close-easter-egg" class="px-6 py-2 rounded-full bg-[#E63946] text-white font-semibold text-sm hover:bg-[#C1121F] transition-colors">
+            Got It! 🥰
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Floating Back to Top Button -->
+    <button id="btn-back-to-top" aria-label="Back to top" class="fixed bottom-6 right-6 z-30 p-3 rounded-full bg-white/90 text-[#E63946] border border-[#FFE5E9] shadow-md hover:bg-[#FFE5E9] hover:scale-110 active:scale-90 transition-all opacity-0 pointer-events-none">
+      <svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24">
+        <path d="M18 15l-6-6-6 6"/>
+      </svg>
+    </button>
+
+    <!-- Load main script -->
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
